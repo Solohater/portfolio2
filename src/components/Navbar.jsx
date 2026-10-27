@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTheme } from '@/context/ThemeContext';
-import { Sun, Moon, Menu, X, Github } from 'lucide-react';
+import { Sun, Moon, Menu, X, Github, Download } from 'lucide-react';
 import { personalInfo } from '@/data/portfolioData';
 
 const navItems = [
@@ -72,8 +72,24 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Right Actions: GitHub + Theme Toggle */}
-        <div className="flex items-center gap-3">
+        {/* Right Actions: Download CV + GitHub + Theme Toggle */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <a
+            href="/cv.pdf"
+            download="Yoseph_Ayalew_CV.pdf"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition hover:opacity-90 shadow-sm"
+            style={{
+              borderColor: 'var(--accent)',
+              color: 'var(--accent-text)',
+              backgroundColor: 'var(--bg-subtle)',
+            }}
+            title="Download Yoseph Ayalew CV (PDF)"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Download CV</span>
+            <span className="sm:hidden">CV</span>
+          </a>
+
           <a
             href={personalInfo.github}
             target="_blank"
@@ -131,6 +147,20 @@ export default function Navbar() {
               {item.label}
             </a>
           ))}
+          <a
+            href="/cv.pdf"
+            download="Yoseph_Ayalew_CV.pdf"
+            onClick={() => setMobileMenuOpen(false)}
+            className="px-3 py-2 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between border"
+            style={{
+              borderColor: 'var(--accent)',
+              color: 'var(--accent-text)',
+              backgroundColor: 'var(--bg-subtle)',
+            }}
+          >
+            <span>Download CV (PDF)</span>
+            <Download className="w-4 h-4" />
+          </a>
         </div>
       )}
     </header>

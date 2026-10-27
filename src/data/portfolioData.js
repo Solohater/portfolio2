@@ -6,6 +6,8 @@ export const personalInfo = {
   status: "Available for full-stack opportunities",
   timezone: "Africa/Addis_Ababa",
   email: "yosefayalew56@gmail.com",
+  phone: "+251933967295",
+  phoneDisplay: "+251 933 967 295",
   portfolioPrimary: "https://portfolio2-hazel-gamma.vercel.app",
   portfolioSecondary: "https://portfolio-6pnf.vercel.app",
   github: "https://github.com/Solohater",
@@ -13,6 +15,7 @@ export const personalInfo = {
   gitlab: "https://gitlab.com/yosephh",
   linkedin: "https://www.linkedin.com/in/yoseph-ayalew-65247b291",
   telegram: "https://t.me/YOSEP015",
+  telegramHandle: "@YOSEP015",
   about: `Full-Stack Software Engineer with proven hands-on experience building mission-critical enterprise systems using Java, Vert.x, Angular, React, and PostgreSQL. At eTech SC, I architect and engineer high-concurrency microservices, healthcare workflows, cooperative financial systems (SACCOs), and intuitive user interfaces designed for real-world reliability.`,
   stats: [
     { label: "Production Domains", value: "eHealth & SACCO" },
