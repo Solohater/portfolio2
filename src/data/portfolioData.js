@@ -6,6 +6,8 @@ export const personalInfo = {
   status: "Available for full-stack opportunities",
   timezone: "Africa/Addis_Ababa",
   email: "yosefayalew56@gmail.com",
+  portfolioPrimary: "https://portfolio2-hazel-gamma.vercel.app",
+  portfolioSecondary: "https://portfolio-6pnf.vercel.app",
   github: "https://github.com/Solohater",
   githubUsername: "Solohater",
   gitlab: "https://gitlab.com/yosephh",
