@@ -17,6 +17,13 @@ const displayFont = localFont({
 export const metadata = {
   title: 'Yoseph Ayalew — Full-Stack Software Engineer',
   description: 'Full-Stack Software Engineer specializing in Java, Vert.x, Angular, React, and PostgreSQL at eTech SC. Developing high-performance enterprise eHealth and SACCO systems.',
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-icon.png',
+  },
   keywords: [
     'Yoseph Ayalew',
     'Full-Stack Software Engineer',
