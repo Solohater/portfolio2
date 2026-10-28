@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { skillCategories } from '@/data/portfolioData';
-import { Cpu, Terminal, Database, Layout, Wrench, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { Cpu, Terminal, Database, Layout, Wrench, ChevronDown, ChevronUp, Star, Sparkles } from 'lucide-react';
 
 const categoryIcons = {
   Languages: Terminal,
@@ -14,7 +14,15 @@ const categoryIcons = {
 };
 
 export default function Skills() {
-  const [showDetailedProficiency, setShowDetailedProficiency] = useState(false);
+  const [showAllSkills, setShowAllSkills] = useState(false);
+  const [expandedCategories, setExpandedCategories] = useState({});
+
+  const toggleCategory = (catName) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [catName]: !prev[catName],
+    }));
+  };
 
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
@@ -26,38 +34,42 @@ export default function Skills() {
             <span>Technical Capabilities</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight" style={{ color: 'var(--text)' }}>
-            Tech Stack & Core Technologies
+            Core Tech Stack & Tools
           </h2>
           <p className="text-base max-w-2xl" style={{ color: 'var(--text-muted)' }}>
-            Production-tested stack applied daily building high-concurrency microservices and responsive web platforms.
+            High-demand production technologies applied daily in enterprise microservices, financial platforms, and web apps.
           </p>
         </div>
 
-        {/* Toggle details button */}
+        {/* Global Toggle for Extended Stack */}
         <button
           type="button"
-          onClick={() => setShowDetailedProficiency(!showDetailedProficiency)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all hover:bg-emerald-800/10 self-start md:self-auto cursor-pointer"
+          onClick={() => setShowAllSkills(!showAllSkills)}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-200 hover:scale-105 self-start md:self-auto cursor-pointer shadow-sm"
           style={{
-            borderColor: 'var(--card-border)',
+            borderColor: 'var(--accent)',
             color: 'var(--accent-text)',
             background: 'var(--bg-subtle)',
           }}
         >
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>{showDetailedProficiency ? 'Hide detailed tags' : 'Show domain tags & levels'}</span>
-          {showDetailedProficiency ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          <span>{showAllSkills ? 'Show only core/most-wanted stack' : 'Show full extended stack & secondary tools ▾'}</span>
+          {showAllSkills ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
         </button>
       </div>
 
-      {/* Grid: Clean Category Cards with Compact Chips */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Grid: Clean Category Cards with 'Most Wanted' by Default */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
         {skillCategories.map((cat) => {
           const Icon = categoryIcons[cat.name] || Terminal;
+          const coreSkills = cat.skills.filter((s) => s.level === 'Core');
+          const secondarySkills = cat.skills.filter((s) => s.level !== 'Core');
+          const isCategoryExpanded = showAllSkills || !!expandedCategories[cat.name];
+
           return (
             <div
               key={cat.name}
-              className="glass-card rounded-2xl p-6 border flex flex-col justify-between transition-all duration-200 hover:border-emerald-600/30 shadow-sm"
+              className="glass-card rounded-2xl p-6 border flex flex-col justify-between transition-all duration-300 hover:shadow-lg"
               style={{ borderColor: 'var(--card-border)' }}
             >
               <div>
@@ -70,73 +82,70 @@ export default function Skills() {
                     </h3>
                   </div>
                   <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-400 font-semibold px-2 py-0.5 rounded-full bg-emerald-800/10">
-                    {cat.skills.length}
+                    {coreSkills.length} Core
                   </span>
                 </div>
 
-                {/* Streamlined Clean Skill Chips */}
-                {!showDetailedProficiency ? (
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {cat.skills.map((skill) => {
-                      const isCore = skill.level === 'Core';
-                      return (
-                        <span
-                          key={skill.name}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-transform hover:scale-105 cursor-default ${
-                            isCore
-                              ? 'bg-emerald-800/15 text-emerald-800 dark:text-emerald-300 border-emerald-800/30'
-                              : 'bg-black/5 dark:bg-white/5 border-transparent'
-                          }`}
-                          style={{
-                            color: isCore ? undefined : 'var(--text)',
-                          }}
-                        >
-                          {skill.name}
-                          {isCore && <span className="ml-1 text-[10px] opacity-75 font-mono">★</span>}
-                        </span>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  /* Expanded Detailed View (On Demand) */
-                  <AnimatePresence>
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="flex flex-col gap-2 pt-1"
+                {/* 'Most Wanted' Core Skills (Always Visible) */}
+                <div className="flex flex-wrap gap-2 pt-1 mb-3">
+                  {coreSkills.map((skill) => (
+                    <span
+                      key={skill.name}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-transform hover:scale-105 cursor-default bg-emerald-800/15 text-emerald-800 dark:text-emerald-300 border-emerald-800/30"
                     >
-                      {cat.skills.map((skill) => (
-                        <div
-                          key={skill.name}
-                          className="p-2 rounded-xl border flex items-center justify-between text-xs"
-                          style={{
-                            background: 'var(--bg-subtle)',
-                            borderColor: 'var(--card-border)',
-                          }}
-                        >
-                          <div className="flex items-center gap-1.5 truncate">
-                            <span className="font-semibold truncate" style={{ color: 'var(--text)' }}>
-                              {skill.name}
-                            </span>
-                            <span className="text-[10px] opacity-70 truncate" style={{ color: 'var(--text-muted)' }}>
-                              • {skill.tag}
-                            </span>
-                          </div>
+                      <span>{skill.name}</span>
+                      <Star className="w-2.5 h-2.5 fill-emerald-600 text-emerald-600 opacity-70" />
+                    </span>
+                  ))}
+                </div>
 
-                          <span
-                            className={`px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase tracking-wider shrink-0 ${
-                              skill.level === 'Core'
-                                ? 'bg-emerald-800/20 text-emerald-800 dark:text-emerald-300 border border-emerald-800/30'
-                                : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
-                            }`}
-                          >
-                            {skill.level}
+                {/* Secondary & Detailed Stack (Under Progressive Disclosure) */}
+                {secondarySkills.length > 0 && (
+                  <div>
+                    {!showAllSkills && (
+                      <button
+                        type="button"
+                        onClick={() => toggleCategory(cat.name)}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 dark:text-emerald-400 hover:underline cursor-pointer pt-1"
+                      >
+                        <span>{isCategoryExpanded ? 'Hide additional tools' : `+ ${secondarySkills.length} more (${secondarySkills.map(s => s.name).join(', ')})`}</span>
+                        {isCategoryExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                      </button>
+                    )}
+
+                    <AnimatePresence>
+                      {isCategoryExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden pt-3 border-t mt-3 space-y-2"
+                          style={{ borderColor: 'var(--card-border)' }}
+                        >
+                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-1.5">
+                            Additional Tools & Domains:
                           </span>
-                        </div>
-                      ))}
-                    </motion.div>
-                  </AnimatePresence>
+                          <div className="flex flex-wrap gap-1.5">
+                            {secondarySkills.map((skill) => (
+                              <span
+                                key={skill.name}
+                                className="px-2.5 py-1 rounded-lg text-xs font-medium border"
+                                style={{
+                                  background: 'var(--bg-subtle)',
+                                  borderColor: 'var(--card-border)',
+                                  color: 'var(--text-muted)',
+                                }}
+                                title={`${skill.name} • ${skill.tag}`}
+                              >
+                                {skill.name}
+                              </span>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 )}
               </div>
             </div>
